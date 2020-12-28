@@ -1,29 +1,48 @@
 package project.Timeline;
 import java.awt.Color;
+import java.util.ArrayList;
 import javax.swing.*;
 
 public class TimelinePanel extends JFrame {
     String[][] excel;
     Timer tm1;
     JButton start;
-    JPanel panel, panel1, panel2, panel3, panel4, panel5;
-    JLabel label, label1, label2, label3, label4, label5;
+    ArrayList<JPanel> jPanels = new ArrayList<>();
+    ArrayList<JLabel> jLabels = new ArrayList<>();
+    ArrayList<JLabel> popLabels = new ArrayList<>();
+    JLabel world, thYear;
     String[][] colors= new String[][] {
-            {"#bada55","#7fe5f0","#ff0000","#ff80ed","#696969","#133337", "#065535"},
+            {"#bada55","#7fe5f0","#ff0000","#ff80ed","#696969", "#065535","#133337"},
             {"unused","unused","unused","unused","unused","unused","unused"}
     };
+    int year, top;
 
-    public TimelinePanel(String[][] excelData) {
+    public TimelinePanel(String[][] excelData, int topd) {
         super("Timeline");
         excel = excelData;
+        top = topd;
         createElements();
+        year =0;
+        tm1 = new Timer(100, e -> {
 
-        tm1 = new Timer(10, e -> {
+            year++;
+            for(JPanel panel:jPanels){
+                long countryPop = Long.parseLong(excel[jPanels.indexOf(panel)+2][year+1]);
+                long worldPop = Long.parseLong(excel[1][60]);
+                int wid = Math.round(countryPop*5000/worldPop);
+                panel.setBounds(panel.getX(), panel.getY(), wid, 40);
 
-            panel.setBounds(60, 30, panel.getWidth() + 5, 40);
+                int index = jPanels.indexOf(panel);
+                JLabel label = popLabels.get(index);
+                label.setBounds(panel.getX()+panel.getWidth()+10, panel.getY(), 100, 40);
+                label.setText(String.valueOf(countryPop));
 
-            if (panel.getWidth() == 350) {
+                world.setText(excel[1][year+1]);
+                thYear.setText(excel[0][year+1]);
+            }
+            if (year == excel[0].length-2) {
                 tm1.stop();
+                year=0;
                 start.setEnabled(true);
             }
         });
@@ -35,42 +54,57 @@ public class TimelinePanel extends JFrame {
 
     private void addElements() {
         add(start);
-        add(label1);
-        add(panel);
-        add(panel1);
+        add(world);
+        add(thYear);
+        for (JLabel label:jLabels)add(label);
+        for (JLabel label:popLabels)add(label);
+        for (JPanel panel:jPanels)add(panel);
         setLayout(null);
-        setSize(1500, 500);
+        setSize(1100, 500);
         getContentPane().setBackground(Color.decode("#bdb76b"));
         setLocationRelativeTo(null);
         setVisible(true);
     }
 
     private void setColor(JPanel panel1) {
-        for(int i=0;i<colors.length;i++)
-            if(colors[1][i]=="unused"){
+        for(int i=0;i<colors[0].length;i++) {
+            if (colors[1][i] == "unused") {
                 panel1.setBackground(Color.decode(colors[0][i]));
-                colors[1][i]="used";
+                colors[1][i] = "used";
+                break;
             }
+        }
     }
 
     private void createElements() {
         start = new JButton("start");
-        start.setBounds(260, 400, 100, 20);
-        label1 = new JLabel(excel[2][1]);
-        label1.setBounds(10,30,50,40);
-        label1.setFont (label1.getFont ().deriveFont (14.0f));
-        panel = new JPanel();
-        setColor(panel);
-        panel.setBounds(45, 30, 5, 40);
-        panel1 = new JPanel();
-        setColor(panel1);
-        panel1.setBounds(30, 80, 5, 40);
+        start.setBounds(560, 400, 100, 20);
+        world = new JLabel();
+        world.setText(excel[1][2]);
+        world.setBounds(560, 350, 150, 30);
+        world.setFont(world.getFont().deriveFont(18.0f));
+        thYear = new JLabel();
+        thYear.setText(excel[0][2]);
+        thYear.setBounds(560, 300, 150, 30);
+        thYear.setFont(thYear.getFont().deriveFont(24.0f));
+        for(int i=0;i<top;i++){
+            JPanel panel = new JPanel();
+            setColor(panel);
+            panel.setBounds(15, 50*(i+1), 5, 40);
+            jPanels.add(panel);
+        }
+        for(int i=0;i<top;i++) {
+            JLabel label = new JLabel(excel[i+2][0]);
+            label.setBounds(25, 50*(i+1), 100, 40);
+            label.setFont(label.getFont().deriveFont(14.0f));
+            jLabels.add(label);
+        }
+        for(int i=0;i<top;i++) {
+            JLabel label = new JLabel();
+            label.setBounds(100, 50*(i+1), 100, 40);
+            label.setFont(label.getFont().deriveFont(14.0f));
+            popLabels.add(label);
+        }
     }
 
-    void increment(int i){
-        i++;
-    }
-    void reset(int i){
-        i=0;
-    }
 }

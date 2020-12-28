@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bef6f9d4-7f1e-46b9-84bb-000aa39c0601" name="Default Changelist" comment="" />
+    <list default="true" id="bef6f9d4-7f1e-46b9-84bb-000aa39c0601" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Timeline/project/Timeline/GetExcelData.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Timeline/project/Timeline/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Timeline/project/Timeline/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Timeline/project/Timeline/Population.xls" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Timeline/project/Timeline/Population.xls" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Timeline/project/Timeline/TimelinePanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Timeline/project/Timeline/TimelinePanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/Timeline/GetExcelData.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/Timeline/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/Timeline/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/Timeline/Population.xls" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/Timeline/Population.xls" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/Timeline/TimelinePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/Timeline/TimelinePanel.java" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,8 +26,13 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1WG3f5AO9bNuqbW5gGSSHFxtWlr" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="findjar.last.used.dir" value="$PROJECT_DIR$" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="SDKs" />
@@ -70,5 +86,18 @@
       <updated>1578762204385</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
