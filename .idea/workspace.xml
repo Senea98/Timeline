@@ -2,13 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bef6f9d4-7f1e-46b9-84bb-000aa39c0601" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/project/Timeline/Country.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/project/Timeline/Graphic.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/project/Timeline/Panel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Timeline/project/Timeline/GetExcelData.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Timeline/project/Timeline/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Timeline/project/Timeline/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Timeline/project/Timeline/Population.xls" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Timeline/project/Timeline/Population.xls" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Timeline/project/Timeline/TimelinePanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Timeline/project/Timeline/TimelinePanel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/project/Timeline/GetExcelData.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/project/Timeline/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/Timeline/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/project/Timeline/Population.xls" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/Timeline/Population.xls" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/project/Timeline/TimelinePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/Timeline/TimelinePanel.java" afterDir="false" />
