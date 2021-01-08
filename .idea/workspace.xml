@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bef6f9d4-7f1e-46b9-84bb-000aa39c0601" name="Default Changelist" comment="">
+    <list default="true" id="11fbedda-247e-43b2-ac28-02fdb28edd8b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Timeline/project/Timeline/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Timeline/project/Timeline/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Timeline/project/Timeline/Population.xls" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Timeline/project/Timeline/Population.xls" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Timeline/project/Timeline/TimelinePanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Timeline/project/Timeline/TimelinePanel.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Timeline/project/Timeline/TopCountry.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Timeline/project/Timeline/TopCountry.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/Timeline/Population.xls" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/Timeline/Population.xls" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/project/Timeline/TimelinePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/Timeline/TimelinePanel.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />

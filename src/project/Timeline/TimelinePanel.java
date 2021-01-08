@@ -4,6 +4,7 @@ package project.Timeline;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -14,6 +15,10 @@ class TopCountry{
     public TopCountry(String name, long population) {
         this.name = name;
         this.population = population;
+    }
+
+    public long getPopulation() {
+        return population;
     }
 }
 
@@ -48,7 +53,7 @@ public class TimelinePanel extends JFrame {
 
     private void setTimer1() {
         year =0;
-        tm1 = new Timer(1000, e -> {
+        tm1 = new Timer(500, e -> {
             year++;
             cycle(year);
 
@@ -121,18 +126,18 @@ public class TimelinePanel extends JFrame {
                 }
             }
         }
+        list.sort(Comparator.comparing(TopCountry::getPopulation).reversed());
         return list;
     }
     private void movePanel(){
 
-        Timer tm2 = new Timer(90, e->{
+        Timer tm2 = new Timer(45, e->{
 
             for (Panel panel : newPosition.keySet()){
                 int to = newPosition.get(panel);
                 if(to<=top+1) {
                     int from = panels.indexOf(panel);
                     if (from != to) {
-                        System.out.println(from + " " + to);
                         int y = (to - from) * 5;
                         panel.changeY(y);
                     }
@@ -158,20 +163,16 @@ public class TimelinePanel extends JFrame {
                 int from = panels.indexOf(panel), to = newPosition.get(panel);
                 if (to==top+1) {
                     newPosition.put(panel, top+2);
-                    System.out.println(panel.getCountry().getText() + " Added value 8 !!!!!!!!!!");
                 }
                 else if (from != to && to!=top+2) {
                         Panel panel1 = panels.get(from);
                         panels.remove(from);
                         addPanel(panel1);
                         panels.add(to, panel1);
-                        System.out.println(panel1.getCountry().getText() + " to " + to);
                         ok = true;
                     }
-
             }
         }
-        for (Panel panel : panels)System.out.println(panel.getCountry().getText());
 
     }
 
@@ -184,7 +185,6 @@ public class TimelinePanel extends JFrame {
                 iterator.remove();
                 panels.remove(panel);
             }
-
         }
     }
 
@@ -196,8 +196,6 @@ public class TimelinePanel extends JFrame {
     private void cycle(int ind){
 
         list = topCountries(countries, ind);
-        System.out.println(years.getPopByIndex(ind));
-
         // check wich panels must remain inside the frame - compare topCountry list with panels. country list
         for (Panel panel: panels){
             boolean exists = false;
@@ -231,16 +229,9 @@ public class TimelinePanel extends JFrame {
                 panels.add(panel);
 
                 newPosition.put(panel, list.indexOf(country));
-
             }
         }
-        System.out.println();
-        for (Panel panel : newPosition.keySet())
-            System.out.println(panel.getCountry().getText()+" -> " + newPosition.get(panel));
-        System.out.println();
-
         movePanel();
-
         removePosition();
         world.setText(String.valueOf(worldPop.getPopByIndex(ind)));
         thYear.setText(String.valueOf(years.getPopByIndex(ind)));
