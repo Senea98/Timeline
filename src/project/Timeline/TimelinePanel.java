@@ -34,10 +34,6 @@ public class TimelinePanel extends JFrame {
     private ArrayList<Panel> panels = new ArrayList<>();
     private HashMap<Panel, Integer> newPosition = new HashMap<>();
 
-    private String[][] colors= new String[][] {
-            {"#bada55","#7fe5f0","#ff0000","#ff80ed","#696969", "#065535","#133337"},
-            {"unused","unused","unused","unused","unused","unused","unused"}
-    };
     // Timeline Constructor
     public TimelinePanel(ArrayList<Country> countries, int top) {
         super("Timeline");
@@ -102,15 +98,7 @@ public class TimelinePanel extends JFrame {
         setVisible(true);
     }
 
-    private void setColor(JPanel panel1) {
-        for(int i=0;i<colors[0].length;i++) {
-            if (colors[1][i] == "unused") {
-                panel1.setBackground(Color.decode(colors[0][i]));
-                colors[1][i] = "used";
-                break;
-            }
-        }
-    }
+
 
     private ArrayList<TopCountry> topCountries(ArrayList<Country> countries, int index) {
         ArrayList<TopCountry> list = new ArrayList<>();

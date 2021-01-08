@@ -5,6 +5,7 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
+import java.awt.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -63,6 +64,9 @@ public class Main {
             countries.add(obj);
         }
 
+        Panel.addPanelColor(Color.YELLOW);
+        Panel.addPanelColor(Color.CYAN);
+        Panel.addPanelColor(Color.blue);
         new TimelinePanel(countries, 6);
 
     }
