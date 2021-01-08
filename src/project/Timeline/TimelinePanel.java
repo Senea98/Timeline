@@ -1,8 +1,6 @@
 package project.Timeline;
 
 
-import javafx.scene.layout.Pane;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -50,7 +48,7 @@ public class TimelinePanel extends JFrame {
 
     private void setTimer1() {
         year =0;
-        tm1 = new Timer(500, e -> {
+        tm1 = new Timer(1000, e -> {
             year++;
             cycle(year);
 
@@ -125,30 +123,19 @@ public class TimelinePanel extends JFrame {
         }
         return list;
     }
-    private void movePanel(/*int from, int to*/){
+    private void movePanel(){
 
-        //int y = (to-from)*5;
-        Timer tm2 = new Timer(45, e->{
-
-//            panels.get(from).changeY(y);
-//            if(from<to){
-//                for (int i=from+1;i<=to;i++)panels.get(i).changeY(-5);
-//            }
-//            else if(from>to)
-//                for (int i=to;i<from;i++)panels.get(i).changeY(5);
-//
-//
-//            if (panels.get(from).getPanel().getY() == (1+to)*50){
-//                ((Timer)e.getSource()).stop();
-//
-//            }
+        Timer tm2 = new Timer(90, e->{
 
             for (Panel panel : newPosition.keySet()){
-                int from = panels.indexOf(panel), to = newPosition.get(panel);
-                if (from != to ) {
-                    System.out.println(from+ " " + to);
-                    int y = (to-from)*5;
-                    panel.changeY(y);
+                int to = newPosition.get(panel);
+                if(to<=top+1) {
+                    int from = panels.indexOf(panel);
+                    if (from != to) {
+                        System.out.println(from + " " + to);
+                        int y = (to - from) * 5;
+                        panel.changeY(y);
+                    }
                 }
             }
             count++;
@@ -169,19 +156,38 @@ public class TimelinePanel extends JFrame {
             ok=false;
             for (Panel panel : newPosition.keySet()) {
                 int from = panels.indexOf(panel), to = newPosition.get(panel);
-                if (from != to) {
-                    Panel panel1 = panels.get(from);
-                    panels.remove(from);
-                    addPanel(panel1);
-                    panels.add(to, panel1);
-                    System.out.println(panel1.getCountry().getText() + " to " + to);
-                    ok = true;
+                if (to==top+1) {
+                    newPosition.put(panel, top+2);
+                    System.out.println(panel.getCountry().getText() + " Added value 8 !!!!!!!!!!");
                 }
+                else if (from != to && to!=top+2) {
+                        Panel panel1 = panels.get(from);
+                        panels.remove(from);
+                        addPanel(panel1);
+                        panels.add(to, panel1);
+                        System.out.println(panel1.getCountry().getText() + " to " + to);
+                        ok = true;
+                    }
+
             }
         }
         for (Panel panel : panels)System.out.println(panel.getCountry().getText());
 
     }
+
+    private void removePosition() {
+
+        Iterator<Panel> iterator = newPosition.keySet().iterator();
+        while(iterator.hasNext()){
+            Panel panel = iterator.next();
+            if (panel.getPanel().getY()>(top+2)*50){
+                iterator.remove();
+                panels.remove(panel);
+            }
+
+        }
+    }
+
     private void addPanel(Panel panel){
         add(panel.getCountry());
         add(panel.getPanel());
@@ -190,8 +196,6 @@ public class TimelinePanel extends JFrame {
     private void cycle(int ind){
 
         list = topCountries(countries, ind);
-
-
         System.out.println(years.getPopByIndex(ind));
 
         // check wich panels must remain inside the frame - compare topCountry list with panels. country list
@@ -208,7 +212,7 @@ public class TimelinePanel extends JFrame {
                 }
             }
             if (exists == false){
-                newPosition.put(panel, list.size()+1); // if current panel is not inside top list anymore, it's position is set to top+1
+                newPosition.put(panel, top+1); // if current panel is not inside top list anymore, it's position is set to top+1
             }
         }
         // check wich countries must be added to the frame
@@ -222,38 +226,24 @@ public class TimelinePanel extends JFrame {
             }
             if (exist == false){
                 Panel panel = new Panel(country.name, country.population);
-                panel.setPosition(50*top, calculateWidth(country.population));
+                panel.setPosition(50*(panels.size()+1), calculateWidth(country.population));
+                addPanel(panel);
                 panels.add(panel);
+
                 newPosition.put(panel, list.indexOf(country));
 
             }
         }
-//        System.out.println("Before move");
-//        for (Panel panel : newPosition.keySet())
-//            /*if (panels.indexOf(panel)!= newPosition.get(panel))*/System.out.println(panel.getCountry().getText()+" -> " + newPosition.get(panel));
-//        System.out.println();
-//        for(Panel pan: panels)System.out.print(pan.getCountry().getText()+ " ");
-
-        //delete saved position for countries that will not change their position;
-//        Iterator<Panel> iterator = newPosition.keySet().iterator();
-//        while (iterator.hasNext()){
-//            Panel panel = iterator.next();
-//            if (panels.indexOf(panel) == newPosition.get(panel))iterator.remove();
-//        }
-//        System.out.println("\nAfter move");
-//        for(Panel pan: panels)System.out.print(pan.getCountry().getText()+ " ");
-
         System.out.println();
         for (Panel panel : newPosition.keySet())
-            /*if (panels.indexOf(panel)!= newPosition.get(panel))*/System.out.println(panel.getCountry().getText()+" -> " + newPosition.get(panel));
+            System.out.println(panel.getCountry().getText()+" -> " + newPosition.get(panel));
         System.out.println();
 
         movePanel();
 
-
-        //newPosition.clear();
-            world.setText(String.valueOf(worldPop.getPopByIndex(ind)));
-            thYear.setText(String.valueOf(years.getPopByIndex(ind)));
+        removePosition();
+        world.setText(String.valueOf(worldPop.getPopByIndex(ind)));
+        thYear.setText(String.valueOf(years.getPopByIndex(ind)));
     }
 
 }
