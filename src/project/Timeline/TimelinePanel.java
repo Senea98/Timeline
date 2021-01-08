@@ -1,8 +1,14 @@
 package project.Timeline;
 
+
+import javafx.scene.layout.Pane;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+
 class TopCountry{
     String name;
     long population;
@@ -14,29 +20,37 @@ class TopCountry{
 }
 
 public class TimelinePanel extends JFrame {
-    ArrayList<Country> countries;
-    Timer tm1;
-    JButton start;
-    ArrayList<JPanel> jPanels = new ArrayList<>();
-    ArrayList<JLabel> jLabels = new ArrayList<>();
-    ArrayList<JLabel> popLabels = new ArrayList<>();
-    JLabel world, thYear;
-    long worldPop;
-    String[][] colors= new String[][] {
+
+    private Timer tm1;
+    private JButton start;
+    private int year, top, count;
+    private JLabel world, thYear;
+    private ArrayList<Country> countries;
+    private Country worldPop, years;
+    private ArrayList<TopCountry> list;
+    private ArrayList<Panel> panels = new ArrayList<>();
+    private HashMap<Panel, Integer> newPosition = new HashMap<>();
+
+    private String[][] colors= new String[][] {
             {"#bada55","#7fe5f0","#ff0000","#ff80ed","#696969", "#065535","#133337"},
             {"unused","unused","unused","unused","unused","unused","unused"}
     };
-    int year, top;
-
-    public TimelinePanel(ArrayList<Country> countries, int topd) {
+    // Timeline Constructor
+    public TimelinePanel(ArrayList<Country> countries, int top) {
         super("Timeline");
-        this.countries = countries;
-        top = topd;
+        this.years = countries.get(0);
+        this.worldPop = countries.get(1);
+        this.countries = new ArrayList<>(countries.subList(2, countries.size()));
+        this.top = top;
+        list = topCountries(this.countries, 0);
         createElements();
-        year =0;
-        worldPop = countries.get(1).getLastPop();
-        tm1 = new Timer(100, e -> {
+        setTimer1();
+        addElements();
+    }
 
+    private void setTimer1() {
+        year =0;
+        tm1 = new Timer(500, e -> {
             year++;
             cycle(year);
 
@@ -50,16 +64,34 @@ public class TimelinePanel extends JFrame {
         //Timer1 Start
         start.addActionListener(e -> tm1.start());
 
-        addElements();
+    }
+
+    private int calculateWidth(long population){
+        return Math.round(population*5000/worldPop.getLastPop());
+    }
+    private void createElements() {
+        start = new JButton("start");
+        start.setBounds(560, 400, 100, 20);
+        world = new JLabel();
+        world.setText(String.valueOf(worldPop.getPopByIndex(0)));
+        world.setBounds(560, 350, 150, 30);
+        world.setFont(world.getFont().deriveFont(18.0f));
+        thYear = new JLabel();
+        thYear.setText(String.valueOf(years.getPopByIndex(0)));
+        thYear.setBounds(560, 300, 150, 30);
+        thYear.setFont(thYear.getFont().deriveFont(24.0f));
+        for (int i=0;i<top;i++){
+            Panel panel = new Panel(list.get(i).name, list.get(i).population);
+            panel.setPosition(50*(i+1), calculateWidth(list.get(i).population));
+            panels.add(panel);
+        }
     }
 
     private void addElements() {
         add(start);
         add(world);
         add(thYear);
-        for (JLabel label:jLabels)add(label);
-        for (JLabel label:popLabels)add(label);
-        for (JPanel panel:jPanels)add(panel);
+        for (Panel panel:panels)addPanel(panel);
         setLayout(null);
         setSize(1100, 500);
         getContentPane().setBackground(Color.decode("#bdb76b"));
@@ -77,75 +109,151 @@ public class TimelinePanel extends JFrame {
         }
     }
 
-    private void createElements() {
-        start = new JButton("start");
-        start.setBounds(560, 400, 100, 20);
-        world = new JLabel();
-        world.setText(String.valueOf(countries.get(1).getPopByIndex(0)));
-        world.setBounds(560, 350, 150, 30);
-        world.setFont(world.getFont().deriveFont(18.0f));
-        thYear = new JLabel();
-        thYear.setText(String.valueOf(countries.get(0).getPopByIndex(0)));
-        thYear.setBounds(560, 300, 150, 30);
-        thYear.setFont(thYear.getFont().deriveFont(24.0f));
-        for(int i=0;i<top;i++){
-            JPanel panel = new JPanel();
-            panel.setBackground(new Color((int)(Math.random() * 0x1000000)));
-            panel.setBounds(15, 50*(i+1), 5, 40);
-            jPanels.add(panel);
-        }
-        for(int i=0;i<top;i++) {
-            JLabel label = new JLabel(countries.get(i+2).getName());
-            label.setBounds(25, 50*(i+1), 100, 40);
-            label.setFont(label.getFont().deriveFont(14.0f));
-            jLabels.add(label);
-        }
-        for(int i=0;i<top;i++) {
-            JLabel label = new JLabel();
-            label.setBounds(100, 50*(i+1), 100, 40);
-            label.setFont(label.getFont().deriveFont(14.0f));
-            popLabels.add(label);
-        }
-    }
     private ArrayList<TopCountry> topCountries(ArrayList<Country> countries, int index) {
         ArrayList<TopCountry> list = new ArrayList<>();
-        for (int i = 2; i < top+2; i++)
+        for (int i = 0; i < top; i++)
             list.add(new TopCountry(countries.get(i).getName(), countries.get(i).getPopByIndex(index)));
 
-        for (int i = top+2; i < countries.size(); i++) {
+        for (int i = top; i < countries.size(); i++) {
             for (int j = 0; j < list.size(); j++) {
                 if (list.get(j).population < countries.get(i).getPopByIndex(index)) {
                     list.add(j, new TopCountry(countries.get(i).getName(), countries.get(i).getPopByIndex(index)));
                     list.remove(list.get(list.size() - 1));
                     break;
                 }
-
-
             }
         }
         return list;
     }
+    private void movePanel(/*int from, int to*/){
+
+        //int y = (to-from)*5;
+        Timer tm2 = new Timer(45, e->{
+
+//            panels.get(from).changeY(y);
+//            if(from<to){
+//                for (int i=from+1;i<=to;i++)panels.get(i).changeY(-5);
+//            }
+//            else if(from>to)
+//                for (int i=to;i<from;i++)panels.get(i).changeY(5);
+//
+//
+//            if (panels.get(from).getPanel().getY() == (1+to)*50){
+//                ((Timer)e.getSource()).stop();
+//
+//            }
+
+            for (Panel panel : newPosition.keySet()){
+                int from = panels.indexOf(panel), to = newPosition.get(panel);
+                if (from != to ) {
+                    System.out.println(from+ " " + to);
+                    int y = (to-from)*5;
+                    panel.changeY(y);
+                }
+            }
+            count++;
+            if (count==10){
+                count=0;
+                updatePanels();
+                ((Timer)e.getSource()).stop();
+
+            }
+
+        });
+        tm2.start();
+    }
+
+    private void updatePanels(){
+        boolean ok = true;
+        while (ok){
+            ok=false;
+            for (Panel panel : newPosition.keySet()) {
+                int from = panels.indexOf(panel), to = newPosition.get(panel);
+                if (from != to) {
+                    Panel panel1 = panels.get(from);
+                    panels.remove(from);
+                    addPanel(panel1);
+                    panels.add(to, panel1);
+                    System.out.println(panel1.getCountry().getText() + " to " + to);
+                    ok = true;
+                }
+            }
+        }
+        for (Panel panel : panels)System.out.println(panel.getCountry().getText());
+
+    }
+    private void addPanel(Panel panel){
+        add(panel.getCountry());
+        add(panel.getPanel());
+        add(panel.getPopulation());
+    }
     private void cycle(int ind){
 
-        ArrayList<TopCountry> list = topCountries(countries, ind);
-        for(JPanel panel:jPanels){
-            int index = jPanels.indexOf(panel);
-            long countryPop = list.get(index).population;
-
-            int wid = Math.round(countryPop*5000/worldPop);
-            panel.setBounds(panel.getX(), panel.getY(), wid, 40);
-
-            JLabel label = popLabels.get(index);
-            label.setBounds(panel.getX()+panel.getWidth()+10, panel.getY(), 100, 40);
-            label.setText(String.valueOf(countryPop));
-
-            label = jLabels.get(index);
-            label.setText(list.get(index).name);
+        list = topCountries(countries, ind);
 
 
-            world.setText(String.valueOf(countries.get(1).getPopByIndex(ind)));
-            thYear.setText(String.valueOf(countries.get(0).getPopByIndex(ind)));
+        System.out.println(years.getPopByIndex(ind));
+
+        // check wich panels must remain inside the frame - compare topCountry list with panels. country list
+        for (Panel panel: panels){
+            boolean exists = false;
+            for(int i=0;i<list.size();i++){
+                if (panel.getCountry().getText() == list.get(i).name){
+                    newPosition.put(panel, i);// if current panel is still inside top list, it's position is set to updated position
+                    exists = true;
+
+                    panel.changePop(list.get(i).population);
+                    panel.changeWidth(calculateWidth(list.get(i).population));
+                    break;
+                }
+            }
+            if (exists == false){
+                newPosition.put(panel, list.size()+1); // if current panel is not inside top list anymore, it's position is set to top+1
+            }
         }
+        // check wich countries must be added to the frame
+        for(TopCountry country:list){
+            boolean exist = false;
+            for(Panel panel: panels){
+                if (country.name == panel.getCountry().getText()){
+                    exist = true;
+                    break;
+                }
+            }
+            if (exist == false){
+                Panel panel = new Panel(country.name, country.population);
+                panel.setPosition(50*top, calculateWidth(country.population));
+                panels.add(panel);
+                newPosition.put(panel, list.indexOf(country));
+
+            }
+        }
+//        System.out.println("Before move");
+//        for (Panel panel : newPosition.keySet())
+//            /*if (panels.indexOf(panel)!= newPosition.get(panel))*/System.out.println(panel.getCountry().getText()+" -> " + newPosition.get(panel));
+//        System.out.println();
+//        for(Panel pan: panels)System.out.print(pan.getCountry().getText()+ " ");
+
+        //delete saved position for countries that will not change their position;
+//        Iterator<Panel> iterator = newPosition.keySet().iterator();
+//        while (iterator.hasNext()){
+//            Panel panel = iterator.next();
+//            if (panels.indexOf(panel) == newPosition.get(panel))iterator.remove();
+//        }
+//        System.out.println("\nAfter move");
+//        for(Panel pan: panels)System.out.print(pan.getCountry().getText()+ " ");
+
+        System.out.println();
+        for (Panel panel : newPosition.keySet())
+            /*if (panels.indexOf(panel)!= newPosition.get(panel))*/System.out.println(panel.getCountry().getText()+" -> " + newPosition.get(panel));
+        System.out.println();
+
+        movePanel();
+
+
+        //newPosition.clear();
+            world.setText(String.valueOf(worldPop.getPopByIndex(ind)));
+            thYear.setText(String.valueOf(years.getPopByIndex(ind)));
     }
 
 }

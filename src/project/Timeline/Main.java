@@ -63,7 +63,7 @@ public class Main {
             countries.add(obj);
         }
 
-        new TimelinePanel(countries, 5);
+        new TimelinePanel(countries, 6);
 
 
     }
