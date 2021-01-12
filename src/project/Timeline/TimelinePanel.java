@@ -119,7 +119,7 @@ public class TimelinePanel extends JFrame {
     }
     private void movePanel(){
 
-        Timer tm2 = new Timer(45, e->{
+        Timer tm2 = new Timer(40, e->{
 
             for (Panel panel : newPosition.keySet()){
                 int to = newPosition.get(panel);
